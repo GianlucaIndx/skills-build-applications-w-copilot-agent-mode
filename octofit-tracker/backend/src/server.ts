@@ -1,11 +1,13 @@
 import express from 'express';
 import './config/database.js';
-import { getApiBaseUrl } from './config/apiBaseUrl.js';
 import apiRouter from './routes/api.js';
 
 const app = express();
 const port = 8000;
-const apiBaseUrl = getApiBaseUrl();
+const codespaceName = process.env.CODESPACE_NAME;
+const apiBaseUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
+  : `http://localhost:${port}`;
 
 app.use(express.json());
 app.use('/api', apiRouter);
