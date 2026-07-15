@@ -5,6 +5,24 @@ export function getApiBaseUrl() {
     return `https://${codespaceName}-8000.app.github.dev/api`;
   }
 
+  const currentHost = window.location.hostname;
+
+  if (currentHost.endsWith('.app.github.dev')) {
+    const detectedCodespace = currentHost.replace(/-\d+\.app\.github\.dev$/, '');
+
+    if (detectedCodespace) {
+      return `https://${detectedCodespace}-8000.app.github.dev/api`;
+    }
+  }
+
+  if (currentHost.endsWith('.github.dev')) {
+    const detectedCodespace = currentHost.replace(/\.github\.dev$/, '');
+
+    if (detectedCodespace) {
+      return `https://${detectedCodespace}-8000.app.github.dev/api`;
+    }
+  }
+
   return 'http://localhost:8000/api';
 }
 

@@ -9,9 +9,10 @@ const codespaceName = process.env.CODESPACE_NAME;
 const apiBaseUrl = codespaceName
   ? `https://${codespaceName}-8000.app.github.dev`
   : `http://localhost:${port}`;
-const codespacesFrontendOrigin = codespaceName
+const codespacesPortFrontendOrigin = codespaceName
   ? `https://${codespaceName}-5173.app.github.dev`
   : '';
+const codespacesEditorOrigin = codespaceName ? `https://${codespaceName}.github.dev` : '';
 
 app.use(
   cors({
@@ -21,7 +22,12 @@ app.use(
         return;
       }
 
-      if (origin === 'http://localhost:5173' || origin === codespacesFrontendOrigin) {
+      if (
+        origin === 'http://localhost:5173' ||
+        origin === 'http://127.0.0.1:5173' ||
+        origin === codespacesPortFrontendOrigin ||
+        origin === codespacesEditorOrigin
+      ) {
         callback(null, true);
         return;
       }
